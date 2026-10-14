@@ -1,5 +1,6 @@
 #include <stdint.h>
 
+// print a char to the UART
 void uart_putc(char c){
 
     volatile uint8_t *thr = (volatile uint8_t *)0x10000000;
@@ -16,7 +17,7 @@ void uart_putc(char c){
 
 }
 
-
+// prints a string (wraps uart_putc)
 void _print(char * c){
     char * i = c;
     while (*i != '\0'){
@@ -26,6 +27,7 @@ void _print(char * c){
     return;
 }
 
+// prints a hex value or mem address
 void uart_puthex(uint64_t hex){
 
     char * chars = "0123456789ABCDEF";
@@ -45,6 +47,7 @@ void uart_puthex(uint64_t hex){
     return;
 }
 
+// handles trap by simply printing relevant addresses and values
 void trap_handler(uint64_t mcause, uint64_t mepc, uint64_t mtval){
     _print("trap!!!\n");
     _print("mcause: ");
@@ -58,7 +61,7 @@ void trap_handler(uint64_t mcause, uint64_t mepc, uint64_t mtval){
     _print("\n");
 }
 
-
+// main OS entrypoint
 void kernel_main(void) {
 
     _print("hi my name is drake\n");
