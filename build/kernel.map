@@ -13,51 +13,51 @@ ram              0x0000000080000000 0x0000000008000000 xrw
 Linker script and memory map
 
 
-.text           0x0000000080000000      0x100
+.text           0x0000000080000000      0x20e
  *(.text.boot)
  .text.boot     0x0000000080000000       0x30 build/boot.o
                 0x0000000080000000                _start
  *(.text .text.*)
  .text          0x0000000080000030        0x0 build/boot.o
- .text          0x0000000080000030       0xd0 build/main.o
+ .text          0x0000000080000030      0x1de build/main.o
                 0x0000000080000030                uart_putc
-                0x000000008000009e                _printf
-                0x00000000800000e4                kernel_main
+                0x000000008000009e                _print
+                0x00000000800000e4                uart_puthex
+                0x00000000800001ce                kernel_main
 
-.rodata         0x0000000080000100       0x15
+.rodata         0x0000000080000210       0x2d
  *(.rodata .rodata.*)
- .rodata        0x0000000080000100       0x15 build/main.o
+ .rodata        0x0000000080000210       0x2d build/main.o
  *(.srodata .srodata.*)
 
-.rela.dyn       0x0000000080000118        0x0
+.rela.dyn       0x0000000080000240        0x0
  .rela.text.boot
-                0x0000000080000118        0x0 build/boot.o
+                0x0000000080000240        0x0 build/boot.o
 
-.data           0x0000000080000115        0x0
+.data           0x000000008000023d        0x0
  *(.data .data.*)
- .data          0x0000000080000115        0x0 build/boot.o
- .data          0x0000000080000115        0x0 build/main.o
+ .data          0x000000008000023d        0x0 build/boot.o
+ .data          0x000000008000023d        0x0 build/main.o
  *(.sdata .sdata.*)
 
-.bss            0x0000000080000115        0x3
-                0x0000000080000118                . = ALIGN (0x8)
- *fill*         0x0000000080000115        0x3 
-                0x0000000080000118                __bss_start = .
+.bss            0x000000008000023d        0x3
+                0x0000000080000240                . = ALIGN (0x8)
+ *fill*         0x000000008000023d        0x3 
+                0x0000000080000240                __bss_start = .
  *(.bss .bss.*)
- .bss           0x0000000080000118        0x0 build/boot.o
- .bss           0x0000000080000118        0x0 build/main.o
+ .bss           0x0000000080000240        0x0 build/boot.o
+ .bss           0x0000000080000240        0x0 build/main.o
  *(.sbss .sbss.*)
  *(COMMON)
-                0x0000000080000118                . = ALIGN (0x8)
-                0x0000000080000118                __bss_end = .
+                0x0000000080000240                . = ALIGN (0x8)
+                0x0000000080000240                __bss_end = .
 
-.stack          0x0000000080000118     0x1008
-                0x0000000080000120                . = ALIGN (0x10)
- *fill*         0x0000000080000118        0x8 
-                0x0000000080000120                stack_bottom = .
-                0x0000000080001120                . = (. + 0x1000)
- *fill*         0x0000000080000120     0x1000 
-                0x0000000080001120                stack_top = .
+.stack          0x0000000080000240     0x1000
+                0x0000000080000240                . = ALIGN (0x10)
+                0x0000000080000240                stack_bottom = .
+                0x0000000080001240                . = (. + 0x1000)
+ *fill*         0x0000000080000240     0x1000 
+                0x0000000080001240                stack_top = .
 LOAD build/boot.o
 LOAD build/main.o
 OUTPUT(build/kernel.elf elf64-littleriscv)
@@ -78,9 +78,9 @@ OUTPUT(build/kernel.elf elf64-littleriscv)
  .note.GNU-stack
                 0x0000000000000000        0x0 build/main.o
 
-.debug_line     0x0000000000000000      0x18b
+.debug_line     0x0000000000000000      0x275
  .debug_line    0x0000000000000000       0x78 build/boot.o
- .debug_line    0x0000000000000078      0x113 build/main.o
+ .debug_line    0x0000000000000078      0x1fd build/main.o
 
 .debug_line_str
                 0x0000000000000000       0x90
@@ -91,13 +91,13 @@ OUTPUT(build/kernel.elf elf64-littleriscv)
                 0x0000000000000090        0x0 build/main.o
                                          0xbd (size before relaxing)
 
-.debug_info     0x0000000000000000      0x161
+.debug_info     0x0000000000000000      0x22f
  .debug_info    0x0000000000000000       0x28 build/boot.o
- .debug_info    0x0000000000000028      0x139 build/main.o
+ .debug_info    0x0000000000000028      0x207 build/main.o
 
-.debug_abbrev   0x0000000000000000       0xe5
+.debug_abbrev   0x0000000000000000       0xe8
  .debug_abbrev  0x0000000000000000       0x14 build/boot.o
- .debug_abbrev  0x0000000000000014       0xd1 build/main.o
+ .debug_abbrev  0x0000000000000014       0xd4 build/main.o
 
 .debug_aranges  0x0000000000000000       0x60
  .debug_aranges
@@ -105,11 +105,11 @@ OUTPUT(build/kernel.elf elf64-littleriscv)
  .debug_aranges
                 0x0000000000000030       0x30 build/main.o
 
-.debug_str      0x0000000000000000      0x17a
- .debug_str     0x0000000000000000      0x17a build/boot.o
+.debug_str      0x0000000000000000      0x1aa
+ .debug_str     0x0000000000000000      0x1aa build/boot.o
                                          0x39 (size before relaxing)
- .debug_str     0x000000000000017a        0x0 build/main.o
-                                        0x15f (size before relaxing)
+ .debug_str     0x00000000000001aa        0x0 build/main.o
+                                        0x18f (size before relaxing)
 
-.debug_frame    0x0000000000000000       0x98
- .debug_frame   0x0000000000000000       0x98 build/main.o
+.debug_frame    0x0000000000000000       0xc8
+ .debug_frame   0x0000000000000000       0xc8 build/main.o
