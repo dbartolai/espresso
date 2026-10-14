@@ -19,6 +19,9 @@ _start:
 
     _call:
 
+        la      t0, _trap
+        csrw    mtvec, t0
+
         call    kernel_main 
 
 _loop:
